@@ -3,10 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "start": "node bin/www.ts",
+    "dev": "ts-node-dev --respawn --transpileOnly ./bin/www.ts",
+    "tsc": "tsc"
   },
   "dependencies": {
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.16.1",
+    "@types/helmet": "0.0.43",
+    "@types/http-errors": "^1.6.1",
+    "@types/mongoose": "^5.3.26",
+    "@types/morgan": "^1.7.35",
     "content-filter": "^1.1.2",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -14,10 +21,10 @@
     "helmet": "^3.16.0",
     "http-errors": "~1.6.2",
     "mongoose": "^5.5.2",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "typescript": "^3.4.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.11",
-    "supports-color": "^6.1.0"
+    "ts-node-dev": "^1.0.0-pre.32"
   }
 }

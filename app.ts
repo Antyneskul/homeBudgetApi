@@ -1,28 +1,18 @@
-const createError = require('http-errors');
-const express = require('express');
-const logger = require('morgan');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const helmet = require('helmet');
-const filter = require('content-filter');
+import createError from 'http-errors';
+import express from 'express';
+import logger from 'morgan';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import helmet from 'helmet';
+import filter from 'content-filter';
 
-const indexRouter = require('./routes/index');
+const indexRouter = require('./routes');
 const usersRouter = require('./routes/users');
-const debug = require('debug')('homebudgetapi:app');
 
-
-
-const connectWithRetry = () => mongoose.connect('mongodb://mongodb/budget', {
+mongoose.connect('mongodb://mongodb/budget', {
     promiseLibrary: global.Promise,
     useNewUrlParser: true
-}).catch((err) => {
-    debug('Failed to connect to mongo on startup - retrying in 1 sec', err);
-    setTimeout(connectWithRetry, 2000);
 });
-
-connectWithRetry();
-
-
 
 const app = express();
 
@@ -44,7 +34,10 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use((err: {
+    status?: number;
+    message?: string;
+}, req: express.Request, res: express.Response) => {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
