@@ -1,18 +1,11 @@
 import express from 'express';
 import {findUser, tokenForUser} from '../services/auth';
-import {IUserModel} from '../db/models/user';
 
-
-export interface IUserRequest extends express.Request {
-    user: IUserModel
-}
-
-export const signin = async (req: express.Request, res: express.Response) => {
+export const signIn = async (req: express.Request, res: express.Response) => {
     res.send({token: tokenForUser(req.user)});
 };
 
-
-export const signup = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+export const signUp = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const email = req.body.email;
     const password = req.body.password;
 
