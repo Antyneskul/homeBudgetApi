@@ -10,7 +10,8 @@ RUN chmod +x /wait
 
 COPY package.json /usr/src/app/
 
-RUN npm install
+RUN npm install \
+ && npm rebuild bcrypt --build-from-source \
 
 COPY . /usr/src/app
 
