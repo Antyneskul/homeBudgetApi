@@ -6,6 +6,7 @@ const applyRoutes = (app: express.Express) => {
     app.get('/', requireAuth, (req, res) => {
         res.send({hi: 'there'})
     });
+
     app.post('/signin', requireSignIn, signIn);
     app.post('/signup', signUp);
 };
