@@ -1,6 +1,6 @@
-import {Document, Schema, Model, model} from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import {IUser} from '../../interfaces/user';
+import { IUser } from './user.interface';
 
 const UserSchema: Schema = new Schema({
     email: {
@@ -8,16 +8,12 @@ const UserSchema: Schema = new Schema({
         unique: true,
         lowercase: true
     },
-    password: String
+    password: String,
+    sharedAccounts: [String]
 });
 
-export interface IUserModel extends IUser, Document {
-    comparePassword(candidatePassword: string, callback: Function): void
-}
-
-//On save Hook, encrypt password
 UserSchema.pre('save', function (next) {
-    const user = this as IUserModel;
+    const user = this as IUser;
 
     bcrypt.genSalt(10, (err, salt) => {
         if (err) {
@@ -45,5 +41,5 @@ UserSchema.methods.comparePassword = function (candidatePassword: string, callba
 };
 
 
-export const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);
+export const User: Model<IUser> = model<IUser>('User', UserSchema);
 

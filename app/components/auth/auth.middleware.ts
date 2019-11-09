@@ -1,7 +1,7 @@
 import passport from 'passport';
-import {User} from '../db/models/user';
-import {Strategy as JwtStrategy, ExtractJwt} from 'passport-jwt';
-import {Strategy as LocalStrategy} from 'passport-local';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { User } from '../user/user.model';
 
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromHeader('authorization'),
@@ -50,3 +50,6 @@ const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
 
 passport.use(jwtLogin);
 passport.use(localLogin);
+
+export const requireAuth = passport.authenticate('jwt', {session: false});
+export const requireSignIn = passport.authenticate('local', {session: false});

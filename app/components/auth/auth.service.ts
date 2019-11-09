@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
-import {IUserModel, User} from '../db/models/user';
-import {validEmail, validPassword} from '../utils/validation';
+import { validEmail, validPassword } from '../../utils/validation';
+import { User } from '../user/user.model';
+import { IUser } from '../user/user.interface';
 
-export const tokenForUser = (user: IUserModel) => {
-    const timestamp = new Date().getTime();
-    return jwt.sign({sub: user.id, iat: timestamp}, 'secret');
-};
-
+export const tokenForUser = (user: IUser) => jwt.sign({
+    sub: user.id,
+    iat: new Date().getTime()
+}, process.env.JWT_SECRET as string);
 
 export const findUser = async (email: string, password: string) => {
     if (!validEmail(email) || !validPassword(password)) {

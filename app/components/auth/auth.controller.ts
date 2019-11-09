@@ -1,13 +1,16 @@
 import express from 'express';
-import {findUser, tokenForUser} from '../services/auth';
+import { findUser, tokenForUser } from './auth.service';
+import { IUser } from '../user/user.interface';
+
 
 export const signIn = async (req: express.Request, res: express.Response) => {
-    res.send({token: tokenForUser(req.user)});
+    res.send({
+        token: tokenForUser(req.user as IUser)
+    });
 };
 
 export const signUp = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const email = req.body.email;
-    const password = req.body.password;
+    const {email, password} = req.body;
 
     try {
         const user = await findUser(email, password);
