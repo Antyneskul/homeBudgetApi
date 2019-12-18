@@ -1,12 +1,11 @@
-import express from 'express';
-import { requireSignIn } from './components/auth/auth.middleware';
-import { signIn, signUp } from './components/auth/auth.controller';
+import { Router } from 'express';
+import { authRouter } from './components/auth/auth.router';
+import { transactionsRouter } from './components/transaction/transaction.router';
+import { requireAuth } from './components/auth/auth.middleware';
 
+const router = Router();
 
-const applyRoutes = (app: express.Express) => {
-    app.post('/signin', requireSignIn, signIn);
-    app.post('/signup', signUp);
-};
+router.use('/auth', authRouter);
+router.use('/transactions', requireAuth, transactionsRouter);
 
-
-export { applyRoutes };
+export { router };

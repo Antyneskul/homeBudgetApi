@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node bin/www.ts",
     "dev": "ts-node-dev --respawn --transpileOnly ./bin/www.ts",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "test": "jest"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -15,6 +16,7 @@
     "@types/helmet": "0.0.43",
     "@types/http-errors": "^1.6.2",
     "@types/jsonwebtoken": "^8.3.5",
+    "@types/mongo-sanitize": "^1.0.1",
     "@types/mongoose": "^5.5.23",
     "@types/morgan": "^1.7.37",
     "@types/passport": "^1.0.1",
@@ -28,6 +30,7 @@
     "helmet": "^3.21.2",
     "http-errors": "~1.6.2",
     "jsonwebtoken": "^8.5.1",
+    "mongo-sanitize": "^1.0.1",
     "mongoose": "^5.7.7",
     "morgan": "~1.9.0",
     "passport": "^0.4.0",
@@ -36,6 +39,15 @@
     "typescript": "^3.6.4"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.22",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2",
     "ts-node-dev": "^1.0.0-pre.43"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

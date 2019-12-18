@@ -8,9 +8,9 @@ const TransactionSchema: Schema = new Schema({
     },
     category: String,
     amount: Number,
+    createdAt: Date,
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+        type: Schema.Types.ObjectId
     }
 });
 

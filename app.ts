@@ -4,11 +4,10 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import filter from 'content-filter';
 import helmet from 'helmet';
-
-import { applyRoutes } from './app/routes';
 import { IError } from './app/utils/error.interface';
+import { router } from './app/routes';
 
-//TODO: Add logging
+//TODO: Add logging (winston)
 
 const debug = require('debug')('homebudgetapi:server');
 
@@ -20,7 +19,7 @@ mongoose.connect('mongodb://mongodb/budget', {
 
 const app = express();
 
-app.use(logger('dev'));
+app.use(logger('combined'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
@@ -29,9 +28,9 @@ app.use(cors());
 app.use(helmet());
 app.use(filter());
 
-applyRoutes(app);
+app.use('/api', router);
 
-app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((req: express.Request, res: express.Response) => {
     res.status(404);
     res.send('Not Found');
 });

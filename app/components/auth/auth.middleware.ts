@@ -3,15 +3,17 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { User } from '../user/user.model';
 
+const sanitize = require('mongo-sanitize');
+
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-    secretOrKey: 'secret' // TODO: Move to .env
+    secretOrKey: process.env.JWT_SECRET // TODO: Move to .env
 };
 
 const localOptions = {usernameField: 'email'};
 const localLogin = new LocalStrategy(localOptions, async (email: string, password: string, done: Function) => {
     try {
-        const user = await User.findOne({email});
+        const user = await User.findOne({email: sanitize(email)});
 
         if (!user) {
             return done(null, false);
@@ -36,10 +38,10 @@ const localLogin = new LocalStrategy(localOptions, async (email: string, passwor
 
 const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
     try {
-        const user = User.findById(payload.sub);
+        const user = await User.findById(sanitize(payload.sub));
 
         if (user) {
-            done(null, user);
+            done(null, {id: user._id});
         } else {
             done(null, false);
         }

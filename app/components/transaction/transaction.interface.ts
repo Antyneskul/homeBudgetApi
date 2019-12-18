@@ -5,4 +5,5 @@ export interface ITransaction extends Document {
     amount: number;
     userId: string;
     category: string;
+    createdAt: Date;
 }
